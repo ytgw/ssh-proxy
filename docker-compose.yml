@@ -3,3 +3,9 @@ version: '3'
 services:
   app:
     build: .
+    command: sleep infinity
+
+  proxy:
+    image: ubuntu/squid
+    volumes:
+      - ./squid.conf:/etc/squid/squid.conf:ro
