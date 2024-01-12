@@ -41,8 +41,11 @@ SSH接続先をTCP Exposer、プロキシを検証用に立てたSquidサーバ�
 curl --proxy http://proxy:3128 http://www.tcpexposer.com
 curl --proxy http://proxy:3128 https://www.tcpexposer.com
 
-# SSH接続の確認
+# SSH接続の確認(connect-proxyを使う場合)
 ssh -o "ProxyCommand connect-proxy -H proxy:3128 %h %p" -R 80:localhost:8080 anonymous@tcpexposer.com
+
+# SSH接続の確認(ncを使う場合)
+ssh -o "ProxyCommand nc -X connect -x proxy:3128 %h %p" -R 80:localhost:8080 anonymous@tcpexposer.com
 
 # 設定ファイルを使った接続
 ssh -R 80:localhost:8080 TCPExposer
