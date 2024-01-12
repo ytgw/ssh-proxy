@@ -1,0 +1,4 @@
+Host TCPExposer
+    HostName tcpexposer.com
+    User anonymous
+    ProxyCommand connect-proxy -H http_user@http_proxy.example.com:8080 %h %p
