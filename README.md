@@ -8,8 +8,7 @@
 検証環境がわかりやすいようにDockerを使った。
 
 ```bash
-docker compose build
-docker compose up -d
+docker compose up -d --build
 docker compose exec app bash
 ```
 
@@ -52,6 +51,24 @@ ssh -R 80:localhost:8080 TCPExposer
 ```
 
 なお、設定ファイル(```~/.ssh/config```)は[こちら](ssh-config.txt)のとおりである。
+
+
+## 通信パケットの取得
+
+```bash
+docker compose up -d --build
+
+# TCPサーバーの起動
+# 一回受け取るとプロセスは終了する
+docker compose exec app nc -l 8080
+
+# SSH接続
+docker compose exec app ssh -o "ProxyCommand connect-proxy -H proxy:3128 %h %p" -R 80:localhost:8080 anonymous@tcpexposer.com
+docker compose exec app ssh -o "ProxyCommand nc -X connect -x proxy:3128 %h %p" -R 80:localhost:8080 anonymous@tcpexposer.com
+
+# パケット取得
+docker compose exec app tcpdump -i any -w /data/$(date "+%Y-%m-%d-%H-%M-%S").pcapng
+```
 
 
 ## 参考WEBサイト
