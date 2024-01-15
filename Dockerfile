@@ -8,6 +8,8 @@ RUN apt-get update \
         connect-proxy \
         # ncコマンド
         netcat \
+        # ネットワークデバッグツール
+        iproute2 tcpdump \
         # プロキシ確認用のcurl関連のパッケージ
         curl ca-certificates
 
